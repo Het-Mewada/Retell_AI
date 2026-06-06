@@ -5,15 +5,13 @@ const router = express.Router();
 
 router.post("/save-recruiter", async (req, res) => {
     try {
-        console.log(
-            "RETELL PAYLOAD:",
-            JSON.stringify(req.body, null, 2)
-        ); const recruiter = await Recruiter.create({
-            name: req.body.name,
-            company: req.body.company,
-            email: req.body.email,
-            phone: req.body.phone,
-            role: req.body.role
+        const data = req.body.args || req.body;
+        const recruiter = await Recruiter.create({
+            name: data.name,
+            company: data.company,
+            email: data.email,
+            phone: data.phone,
+            role: data.role
         });
 
         res.status(200).json({
