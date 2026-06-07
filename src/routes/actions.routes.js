@@ -144,21 +144,21 @@ router.post("/schedule-interview", async (req, res) => {
     try {
         const {
             email,
-            companyName,
+            company,
             interviewDate
         } = req.body.args || req.body;
 
-        if (!email || !companyName || !interviewDate) {
+        if (!email || !company || !interviewDate) {
             return res.status(400).json({
                 success: false,
-                message: "email, companyName and interviewDate are required"
+                message: "email, company and interviewDate are required"
             });
         }
 
         const recruiter = await Recruiter.findOneAndUpdate(
             {
                 email: email.trim().toLowerCase(),
-                companyName: companyName.trim()
+                company: company.trim()
             },
             {
                 status: "interview_scheduled",
