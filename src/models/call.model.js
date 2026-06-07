@@ -5,8 +5,10 @@ const callSchema = new mongoose.Schema(
         callId: String,
         recruiterName: String,
         company: String,
+        role: String,
         transcript: String,
         summary: String,
+        outcome: String,
         duration: Number
     },
     {
