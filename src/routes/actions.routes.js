@@ -140,33 +140,55 @@ router.post("/update-summary", async (req, res) => {
 });
 
 
-router.post("/schedule-interview",
-    async (req, res) => {
-
+router.post("/schedule-interview", async (req, res) => {
+    try {
         const {
-            recruiterId,
+            email,
+            companyName,
             interviewDate
         } = req.body.args || req.body;
 
-        const recruiter =
-            await Recruiter.findByIdAndUpdate(
-                recruiterId,
-                {
-                    status:
-                        "interview_scheduled",
+        if (!email || !companyName || !interviewDate) {
+            return res.status(400).json({
+                success: false,
+                message: "email, companyName and interviewDate are required"
+            });
+        }
 
-                    interviewDate
-                },
-                {
-                    new: true
-                }
-            );
+        const recruiter = await Recruiter.findOneAndUpdate(
+            {
+                email: email.trim().toLowerCase(),
+                companyName: companyName.trim()
+            },
+            {
+                status: "interview_scheduled",
+                interviewDate
+            },
+            {
+                new: true
+            }
+        );
+
+        if (!recruiter) {
+            return res.status(404).json({
+                success: false,
+                message: "Recruiter not found"
+            });
+        }
 
         res.json({
             success: true,
             recruiter
         });
 
-    });
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+});
 
 export default router;
