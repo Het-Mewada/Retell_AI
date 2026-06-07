@@ -5,7 +5,8 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
     try {
-        const recruiter = await Recruiter.create(req.body);
+
+        const recruiter = await Recruiter.create(req.body.args || req.body);
 
         res.status(201).json(recruiter);
     } catch (error) {
