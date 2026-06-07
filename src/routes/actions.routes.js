@@ -144,7 +144,7 @@ router.post("/schedule-interview", async (req, res) => {
     try {
         const {
             email,
-            company,
+            companyName: company,
             interviewDate
         } = req.body.args || req.body;
 
